@@ -20,12 +20,14 @@ client = OpenAI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:5173",  # local dev
-        "https://anomaly-detection-frontend-topaz.vercel.app/",],  # frontend dev server
+        "https://anomaly-detection-frontend-topaz.vercel.app",],  # frontend dev server
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
+@app.get("/")
+async def root():
+    return {"message": "Backend is live!"}
 @app.post("/analyze")
 async def analyze(file: UploadFile = File(...)):
     content = await file.read()
